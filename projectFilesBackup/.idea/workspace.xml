@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec6fd0ee-b421-43c7-8cf3-1872b740232f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_4]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="navigationResourceFile" />
+        <option value="Kotlin Object" />
+        <option value="layoutResourceFile" />
+        <option value="resourceFile" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1qkTNdI1xfVzU2ba5uMHANU92y8" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.boryans.covidstats.activities" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.drawable-v24.* and 1 more">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="Covid_Stats.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="drawable-v24.* and 1 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Covid_Stats.app" />
+      <option name="TEST_OBJECT" value="pattern" />
+      <patterns>
+        <pattern testClass="drawable-v24.*" />
+        <pattern testClass="drawable.*" />
+      </patterns>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.drawable-v24.* and 1 more" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec6fd0ee-b421-43c7-8cf3-1872b740232f" name="Default Changelist" comment="" />
+      <created>1617622548910</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617622548910</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="3115" y="186" width="810" height="715" key="#Plugins" timestamp="1617632720896">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3115" y="186" width="810" height="715" key="#Plugins/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617632720896" />
+    <state x="3160" y="328" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog" timestamp="1617630089717">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3160" y="328" key="#org.jetbrains.kotlin.idea.refactoring.move.moveDeclarations.ui.MoveKotlinTopLevelDeclarationsDialog/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617630089717" />
+    <state x="2655" y="100" width="1730" height="885" key="AVDManager" timestamp="1617634019525">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2655" y="100" width="1730" height="885" key="AVDManager/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617634019525" />
+    <state x="3103" y="300" width="834" height="487" key="AndroidCreateResourceDirectoryDialog" timestamp="1617629540333">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3103" y="300" width="834" height="487" key="AndroidCreateResourceDirectoryDialog/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617629540333" />
+    <state x="3103" y="300" width="834" height="487" key="AndroidCreateResourceFileDialog" timestamp="1617635556341">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3103" y="300" width="834" height="487" key="AndroidCreateResourceFileDialog/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617635556341" />
+    <state x="3141" y="300" key="Downloadable.Font.Dialog.Size" timestamp="1617635922135">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3141" y="300" key="Downloadable.Font.Dialog.Size/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617635922135" />
+    <state x="3303" y="301" width="434" height="487" key="FileChooserDialogImpl" timestamp="1617631627709">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3303" y="301" width="434" height="487" key="FileChooserDialogImpl/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617631627709" />
+    <state x="3292" y="322" width="456" height="444" key="chooseDestDirectoryDialog" timestamp="1617631326450">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3292" y="322" width="456" height="444" key="chooseDestDirectoryDialog/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617631326450" />
+    <state x="3183" y="240" width="672" height="678" key="search.everywhere.popup" timestamp="1617636290136">
+      <screen x="2560" y="0" width="1920" height="1080" />
+    </state>
+    <state x="3183" y="240" width="672" height="678" key="search.everywhere.popup/0.31.2560.1409/2560.0.1920.1080@2560.0.1920.1080" timestamp="1617636290136" />
+  </component>
+</project>
