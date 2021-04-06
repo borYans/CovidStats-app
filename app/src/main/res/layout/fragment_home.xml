@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,12 +35,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:background="@drawable/country_item_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -114,7 +120,7 @@
                 android:background="@drawable/background_stats_info"
                 android:elevation="10dp"
                 android:gravity="center"
-                android:text="Total cases: 1345"
+                android:text="Total cases: X"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +139,7 @@
                 android:layout_marginRight="32dp"
                 android:elevation="10dp"
                 android:padding="10dp"
-                android:text="Recovered: 3245"
+                android:text="Recovered: X"
                 android:background="@drawable/background_stats_info"
                 android:textColor="@color/white"
                 android:textSize="15sp"
@@ -154,7 +160,7 @@
                 android:padding="10dp"
                 android:gravity="center"
                 android:background="@drawable/background_stats_info"
-                android:text="Deaths: 1345"
+                android:text="Deaths: X"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -173,7 +179,7 @@
                 android:layout_marginRight="32dp"
                 android:gravity="center"
                 android:elevation="10dp"
-                android:text="Life expectancy: 78.5"
+                android:text="Life expectancy: X"
                 android:padding="10dp"
                 android:background="@drawable/background_stats_info"
                 android:textColor="@color/white"
@@ -194,7 +200,7 @@
                 android:elevation="10dp"
                 android:padding="10dp"
                 android:gravity="center"
-                android:text="Last updated: 06.04.2021"
+                android:text="Last updated: X"
                 android:background="@drawable/background_stats_info"
                 android:textColor="@color/white"
                 android:textSize="15sp"
@@ -203,8 +209,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/lifeExpectancy" />
 
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

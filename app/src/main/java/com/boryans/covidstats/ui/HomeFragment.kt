@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.item_country.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,6 +33,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         searchButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            setStatsVisibilityToGone()
             if (searchInputTxt.text?.trim().toString().isBlank()) {
                 Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT).show()
 
@@ -46,18 +49,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun fetchCountries(countryName:String) {
 
         val call = RetrofitInstance.api.getSpecificCountry(countryName)
-        call.enqueue(object : Callback<Countries>{
+        call.enqueue(object : Callback<Countries> {
             override fun onResponse(call: Call<Countries>, response: Response<Countries>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val country = response.body()
-
-                    statsTextView.text = country?.all?.country
-                    totalCases.text = "Total cases: ${country?.all?.confirmed.toString()}"
-                    recoveredCases.text = "Recoveres cases: ${country?.all?.recovered.toString()}"
-                    deaths.text = "Deaths: ${country?.all?.deaths.toString()}"
-                    lifeExpectancy.text = "Life expectancy: ${country?.all?.lifeExpectancy.toString()}"
-                    lastUpdated.text = "Last updated: ${country?.all?.updated}"
+                try {
+                    if (response.isSuccessful && response.body() != null) {
+                        val country = response.body()
+                        progressBar.visibility = View.GONE
+                        appendDataToViews(country!!)
+                        setStatsVisibilityToVisible()
+                    }
+                } catch (e: Exception) {
+                    Log.d(TAG, "Exception: $e")
+                    Toast.makeText(requireContext(), "Not valid country name.", Toast.LENGTH_SHORT).show()
                 }
+
+
             }
 
             override fun onFailure(call: Call<Countries>, t: Throwable) {
@@ -65,9 +71,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             }
 
-
         })
 
+    }
+
+    private fun appendDataToViews(country: Countries) {
+        statsTextView.text = country?.all?.country
+        totalCases.text = "Total cases: ${country?.all?.confirmed?.toString()}"
+        recoveredCases.text = "Recoveres cases: ${country?.all?.recovered?.toString()}"
+        deaths.text = "Deaths: ${country?.all?.deaths?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${country?.all?.lifeExpectancy} years"
+        lastUpdated.text = "Last updated: ${country?.all?.updated}"
+    }
+
+    private fun setStatsVisibilityToVisible() {
+        statsTextView.visibility = View.VISIBLE
+        totalCases.visibility = View.VISIBLE
+        recoveredCases.visibility = View.VISIBLE
+        deaths.visibility = View.VISIBLE
+        lifeExpectancy.visibility = View.VISIBLE
+        lastUpdated.visibility = View.VISIBLE
+    }
+
+    private fun setStatsVisibilityToGone() {
+        statsTextView.visibility = View.VISIBLE
+        totalCases.visibility = View.VISIBLE
+        recoveredCases.visibility = View.VISIBLE
+        deaths.visibility = View.VISIBLE
+        lifeExpectancy.visibility = View.VISIBLE
+        lastUpdated.visibility = View.VISIBLE
     }
 
 
