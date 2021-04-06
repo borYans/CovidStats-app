@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.boryans.covidstats.R
 
 
-class CountryDetailsStatsFragment : Fragment(R.layout.fragment_country_details_stats) {
+class CountryDetailStatsFragment : Fragment(R.layout.fragment_country_details_stats) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

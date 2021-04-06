@@ -2,88 +2,90 @@ package com.boryans.covidstats.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.boryans.covidstats.R
-import com.boryans.covidstats.adapters.HomeRecyclerAdapter
-import com.boryans.covidstats.api.All
-import com.boryans.covidstats.api.Countries
+import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.api.RetrofitInstance
+import com.boryans.covidstats.util.Resource
+import com.boryans.covidstats.viewmodels.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_country.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    val TAG = "RESPONSE"
-    val SUCCESS = "SUCCESS"
 
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)?.setSupportActionBar(my_toolbar)
+        setHasOptionsMenu(true)
 
-        searchButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-            setStatsVisibilityToGone()
-            if (searchInputTxt.text?.trim().toString().isBlank()) {
-                Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT).show()
 
-            } else {
-                fetchCountries(searchInputTxt.text?.trim().toString())
-            }
-
-        }
-
-    }
-
-    private fun fetchCountries(countryName:String) {
-
-        val call = RetrofitInstance.api.getSpecificCountry(countryName)
-        call.enqueue(object : Callback<Countries> {
-            override fun onResponse(call: Call<Countries>, response: Response<Countries>) {
-                try {
-                    if (response.isSuccessful && response.body() != null) {
-                        val country = response.body()
-                        progressBar.visibility = View.GONE
-                        appendDataToViews(country!!)
+        homeViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
+            when (countryDetails) {
+                is Resource.Success -> {
+                    countryDetails.let { details ->
                         setStatsVisibilityToVisible()
+                        progressBar.visibility = View.GONE
+                        appendDataToViews(details)
                     }
-                } catch (e: Exception) {
-                    Log.d(TAG, "Exception: $e")
-                    Toast.makeText(requireContext(), "Not valid country name.", Toast.LENGTH_SHORT).show()
-                    setStatsVisibilityToGone()
-                    progressBar.visibility = View.VISIBLE
                 }
-
-
+                is Resource.Error -> {
+                    Snackbar.make(
+                        requireView(),
+                        "Something went wrong. Check internet connection.",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
-
-            override fun onFailure(call: Call<Countries>, t: Throwable) {
-                Log.d(TAG, "Error response: $t")
-
-            }
-
         })
 
+        searchButton.setOnClickListener {
+            setStatsVisibilityToGone()
+            progressBar.visibility = View.VISIBLE
+
+
+            if (searchInputTxt.text?.trim().toString().isBlank()) {
+                Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT)
+                    .show()
+            } else {
+                homeViewModel.getCountryDetailsData(searchInputTxt.text?.trim().toString())
+            }
+        }
+
+        my_toolbar.inflateMenu(R.menu.home_toolbar_menu)
+        my_toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.listOfInfectedCountries -> Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToCountryList())
+            }
+            true
+        }
+
+
     }
 
-    private fun appendDataToViews(country: Countries) {
-        statsTextView.text = country?.all?.country
-        totalCases.text = "Total cases: ${country?.all?.confirmed?.toString()}"
-        recoveredCases.text = "Recoveres cases: ${country?.all?.recovered?.toString()}"
-        deaths.text = "Deaths: ${country?.all?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${country?.all?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${country?.all?.updated}"
+    private fun appendDataToViews(details: Resource.Success<Country>) {
+        statsTextView.text = details.data?.all?.country
+        totalCases.text = "Total cases: ${details.data?.all?.confirmed?.toString()}"
+        recoveredCases.text = "Recovered cases: ${details.data?.all?.recovered?.toString()}"
+        deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
+        lastUpdated.text = "Last updated: ${details.data?.all?.updated}"
     }
 
     private fun setStatsVisibilityToVisible() {
@@ -104,6 +106,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lastUpdated.visibility = View.GONE
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_toolbar_menu, menu)
+        super.onPrepareOptionsMenu(menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return true
+    }
 
 }

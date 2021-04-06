@@ -1,4 +1,4 @@
-package com.boryans.covidstats.api
+package com.boryans.covidstats.model
 
 
 import com.google.gson.annotations.SerializedName

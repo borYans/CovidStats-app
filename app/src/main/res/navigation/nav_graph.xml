@@ -19,10 +19,18 @@
         <action
             android:id="@+id/action_homeFragment_to_countryDetailsStatsFragment"
             app:destination="@id/countryDetailsStatsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_countryList"
+            app:destination="@id/countryList" />
     </fragment>
     <fragment
         android:id="@+id/countryDetailsStatsFragment"
-        android:name="com.boryans.covidstats.ui.CountryDetailsStatsFragment"
+        android:name="com.boryans.covidstats.ui.CountryDetailStatsFragment"
         android:label="fragment_country_details_stats"
         tools:layout="@layout/fragment_country_details_stats" />
+    <fragment
+        android:id="@+id/countryList"
+        android:name="com.boryans.covidstats.ui.CountryList"
+        android:label="fragment_country_list"
+        tools:layout="@layout/fragment_country_list" />
 </navigation>

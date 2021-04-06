@@ -16,8 +16,8 @@ class RetrofitInstance {
                     .build()
         }
 
-        val api: CountriesApi by lazy {
-            retrofit.create(CountriesApi::class.java)
+        val API: CountryApi by lazy {
+            retrofit.create(CountryApi::class.java)
         }
     }
 }
