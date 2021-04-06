@@ -61,6 +61,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 } catch (e: Exception) {
                     Log.d(TAG, "Exception: $e")
                     Toast.makeText(requireContext(), "Not valid country name.", Toast.LENGTH_SHORT).show()
+                    setStatsVisibilityToGone()
+                    progressBar.visibility = View.VISIBLE
                 }
 
 
@@ -94,12 +96,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setStatsVisibilityToGone() {
-        statsTextView.visibility = View.VISIBLE
-        totalCases.visibility = View.VISIBLE
-        recoveredCases.visibility = View.VISIBLE
-        deaths.visibility = View.VISIBLE
-        lifeExpectancy.visibility = View.VISIBLE
-        lastUpdated.visibility = View.VISIBLE
+        statsTextView.visibility = View.GONE
+        totalCases.visibility = View.GONE
+        recoveredCases.visibility = View.GONE
+        deaths.visibility = View.GONE
+        lifeExpectancy.visibility = View.GONE
+        lastUpdated.visibility = View.GONE
     }
 
 
