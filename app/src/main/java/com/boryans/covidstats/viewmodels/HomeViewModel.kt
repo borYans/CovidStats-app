@@ -29,6 +29,7 @@ class HomeViewModel: ViewModel() {
                         val countriesResponse = response.body()
 
                         countryDetails.postValue(Resource.Success(countriesResponse))
+
                     }
                 } catch (e: Exception) {
                     Log.d(TAG, "Exception: $e")

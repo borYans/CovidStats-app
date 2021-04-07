@@ -6,16 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.boryans.covidstats.R
-import com.boryans.covidstats.model.Country
-import com.boryans.covidstats.ui.CountryList
 import kotlinx.android.synthetic.main.item_country.view.*
 
 
 class CountryListRecyclerAdapter: RecyclerView.Adapter<CountryListRecyclerAdapter.HomeViewHolder>() {
 
-     var countries =  arrayListOf<Country>()
+     var countries =  mutableListOf<String>()
 
-    fun updateCountriesList(countryList: ArrayList<Country>) {
+    fun updateCountriesList(countryList: ArrayList<String>) {
         val oldList = countries
         val difResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
             CountryItemDiffCallback(
@@ -36,27 +34,28 @@ class CountryListRecyclerAdapter: RecyclerView.Adapter<CountryListRecyclerAdapte
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        val items = countries[position]
-        holder.itemView.countryNameTxt.text = items.all.country
+        val item = countries[position]
+        holder.itemView.countryNameTxt.text = item
     }
 
     override fun getItemCount() = countries.size
 }
 
 class CountryItemDiffCallback(
-    var oldCountryList: List<Country>,
-    var newCountryList: List<Country>
+    var oldCountryList: List<String>,
+    var newCountryList: ArrayList<String>
+
 ) : DiffUtil.Callback() {
     override fun getOldListSize() = oldCountryList.size
 
     override fun getNewListSize() = newCountryList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-       return (oldCountryList[oldItemPosition].all.country == newCountryList[newItemPosition].all.country)
+       return (oldCountryList[oldItemPosition] == newCountryList[newItemPosition])
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return (oldCountryList[oldItemPosition].all.country == newCountryList[newItemPosition].all.country)
+        return (oldCountryList[oldItemPosition] == newCountryList[newItemPosition])
     }
 
 }

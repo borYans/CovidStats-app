@@ -1,27 +1,20 @@
 package com.boryans.covidstats.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.boryans.covidstats.R
 import com.boryans.covidstats.model.Country
-import com.boryans.covidstats.api.RetrofitInstance
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -80,12 +73,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun appendDataToViews(details: Resource.Success<Country>) {
-        statsTextView.text = details.data?.all?.country
-        totalCases.text = "Total cases: ${details.data?.all?.confirmed?.toString()}"
-        recoveredCases.text = "Recovered cases: ${details.data?.all?.recovered?.toString()}"
-        deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.all?.updated}"
+        statsTextView.text = details.data?.mainCountry?.country
+        totalCases.text = "Total cases: ${details.data?.mainCountry?.confirmed.toString()}"
+        recoveredCases.text = "Recovered cases: ${details.data?.mainCountry?.recovered.toString()}"
+        deaths.text = "Deaths: ${details.data?.mainCountry?.deaths?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${details.data?.mainCountry?.lifeExpectancy} years"
+        lastUpdated.text = "Last updated: ${details.data?.mainCountry?.updated}"
     }
 
     private fun setStatsVisibilityToVisible() {
@@ -98,12 +91,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setStatsVisibilityToGone() {
-        statsTextView.visibility = View.GONE
-        totalCases.visibility = View.GONE
-        recoveredCases.visibility = View.GONE
-        deaths.visibility = View.GONE
-        lifeExpectancy.visibility = View.GONE
-        lastUpdated.visibility = View.GONE
+        statsTextView.visibility = View.INVISIBLE
+        totalCases.visibility = View.INVISIBLE
+        recoveredCases.visibility = View.INVISIBLE
+        deaths.visibility = View.INVISIBLE
+        lifeExpectancy.visibility = View.INVISIBLE
+        lastUpdated.visibility = View.INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
