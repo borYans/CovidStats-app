@@ -6,10 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.boryans.covidstats.R
+import com.boryans.covidstats.listeners.CountryClickListener
 import kotlinx.android.synthetic.main.item_country.view.*
 
 
-class CountryListRecyclerAdapter: RecyclerView.Adapter<CountryListRecyclerAdapter.HomeViewHolder>() {
+class CountryListRecyclerAdapter(
+    private val countryClickListener: CountryClickListener
+): RecyclerView.Adapter<CountryListRecyclerAdapter.HomeViewHolder>() {
 
      var countries =  mutableListOf<String>()
 
@@ -36,6 +39,10 @@ class CountryListRecyclerAdapter: RecyclerView.Adapter<CountryListRecyclerAdapte
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = countries[position]
         holder.itemView.countryNameTxt.text = item
+
+        holder.itemView.setOnClickListener {
+            countryClickListener.onCountryClick(item)
+        }
     }
 
     override fun getItemCount() = countries.size

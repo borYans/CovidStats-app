@@ -12,7 +12,7 @@ import androidx.navigation.Navigation
 import com.boryans.covidstats.R
 import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Resource
-import com.boryans.covidstats.viewmodels.HomeViewModel
+import com.boryans.covidstats.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -20,8 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
-
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setHasOptionsMenu(true)
 
 
-        homeViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
+        mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
             when (countryDetails) {
                 is Resource.Success -> {
                     countryDetails.let { details ->
@@ -57,7 +56,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT)
                     .show()
             } else {
-                homeViewModel.getCountryDetailsData(searchInputTxt.text?.trim().toString())
+                mainViewModel.getCountryDetailsData(searchInputTxt.text?.trim().toString())
             }
         }
 
@@ -76,7 +75,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recoveredCases.text = "Recovered cases: ${details.data?.all?.recovered.toString()}"
         deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
         lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.all?.updated}"
+        lastUpdated.text = "Last updated: ${details.data?.all?.updated ?: "X"}"
     }
 
     private fun setStatsVisibilityToVisible() {

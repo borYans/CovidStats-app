@@ -10,11 +10,12 @@
     android:layout_marginStart="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginEnd="5dp"
+    android:backgroundTint="@color/search_button_color"
     android:background="@drawable/country_item_background">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:padding="5dp"
         android:layout_marginStart="3dp"
@@ -24,8 +25,7 @@
         android:src="@drawable/ic_virus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/holo_green_light" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/countryNameTxt"
@@ -38,9 +38,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Macedonia"
-        android:textColor="@color/black"
-        android:textSize="23sp"
+        android:textColor="@color/white"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"

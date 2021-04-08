@@ -26,11 +26,3 @@ data class All(
     val updated: String
 )
 
-data class RegionInfo(
-    val lat: String,
-    val long: String,
-    val confirmed: Int,
-    val recovered: Int,
-    val deaths: Int,
-    val updated: String
-)
