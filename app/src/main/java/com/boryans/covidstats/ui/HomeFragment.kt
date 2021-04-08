@@ -27,31 +27,42 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         (activity as AppCompatActivity?)?.setSupportActionBar(my_toolbar)
         setHasOptionsMenu(true)
 
+        my_toolbar.inflateMenu(R.menu.home_toolbar_menu)
+        my_toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.listOfInfectedCountries -> Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToCountryList())
+            }
+            true
+        }
+
 
         mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
             when (countryDetails) {
                 is Resource.Success -> {
+                    hideProgressBar()
                     countryDetails.let { details ->
                         setStatsVisibilityToVisible()
-                        progressBar.visibility = View.GONE
                         appendDataToViews(details)
                     }
                 }
                 is Resource.Error -> {
+                    hideProgressBar()
                     Snackbar.make(
                         requireView(),
                         "Something went wrong. Check internet connection.",
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
+
+                is Resource.Loading -> {
+                   showProgessBar()
+                }
             }
         })
 
         searchButton.setOnClickListener {
             setStatsVisibilityToGone()
-            progressBar.visibility = View.VISIBLE
-
-
+            showProgessBar()
             if (searchInputTxt.text?.trim().toString().isBlank()) {
                 Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT)
                     .show()
@@ -60,13 +71,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        my_toolbar.inflateMenu(R.menu.home_toolbar_menu)
-        my_toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.listOfInfectedCountries -> Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToCountryList())
-            }
-            true
-        }
     }
 
     private fun appendDataToViews(details: Resource.Success<Model>) {
@@ -76,6 +80,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
         lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
         lastUpdated.text = "Last updated: ${details.data?.all?.updated ?: "X"}"
+
+
     }
 
     private fun setStatsVisibilityToVisible() {
@@ -103,6 +109,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return true
+    }
+
+    private fun showProgessBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.INVISIBLE
     }
 
 }

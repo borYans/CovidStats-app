@@ -22,10 +22,7 @@ class MainViewModel: ViewModel() {
     val listOfAllCountries: MutableLiveData<Resource<ArrayList<String>>> = MutableLiveData()
     val error: MutableLiveData<Resource<Error>> = MutableLiveData()
 
-
-
     fun getListOfAllCountries()  {
-
         listOfAllCountries.postValue(Resource.Loading()) //show progress bar
 
         val call = RetrofitInstance.API.getAllCountries()
@@ -35,28 +32,24 @@ class MainViewModel: ViewModel() {
                 response: Response<Map<String, All>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
-
                     val map = response.body()
-                    val countryNames = ArrayList<String>()
-                    for (key in map?.keys!!) {
-                        countryNames.add(key)
-                        Log.d(Constants.SUCCESS, "Country: $key")
-                    }
+                    val countryNames = ArrayList<String>(map?.keys!!)
                     listOfAllCountries.postValue(Resource.Success(countryNames))
+
                 } else {
                     Log.d(Constants.TAG, "Response: ${response.code()}")
                 }
             }
+
             override fun onFailure(call: Call<Map<String, All>>, t: Throwable) {
-                listOfAllCountries.postValue(Resource.Error("Something went wrong."))
+                error.postValue(Resource.Error("Something went wrong."))
             }
-
-
         })
     }
 
     fun getCountryDetailsData(countryName: String) = viewModelScope.launch {
 
+        countryDetails.postValue(Resource.Loading()) //show progress bar
 
         val call = RetrofitInstance.API.getSpecificCountry(countryName)
         call.enqueue(object : Callback<Model> {
@@ -75,6 +68,8 @@ class MainViewModel: ViewModel() {
             }
 
             override fun onFailure(call: Call<Model>, t: Throwable) {
+                listOfAllCountries.postValue(Resource.Error("Something went wrong."))
+
             }
 
         })

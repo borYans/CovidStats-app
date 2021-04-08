@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -18,6 +19,7 @@ import com.boryans.covidstats.util.Constants.Companion.TAG
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.details_country_dialog.*
 import kotlinx.android.synthetic.main.fragment_country_list.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.w3c.dom.Text
@@ -25,7 +27,7 @@ import org.w3c.dom.Text
 
 class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListener {
 
-    private lateinit var countryRecyclerAdapter : CountryListRecyclerAdapter
+    private lateinit var countryRecyclerAdapter: CountryListRecyclerAdapter
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,19 +38,22 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
 
         mainViewModel.getListOfAllCountries()
         mainViewModel.listOfAllCountries.observe(viewLifecycleOwner, { listOfCountries ->
-            when(listOfCountries) {
+            when (listOfCountries) {
                 is Resource.Success -> {
+                    hideProgressBar()
                     listOfCountries.let { list ->
-                       list.data?.let { countries ->
-                               countryRecyclerAdapter.updateCountriesList(countries)
-                           Log.d(TAG, countries.toString())
-                       }
+                        list.data?.let { countries ->
+                            countryRecyclerAdapter.updateCountriesList(countries)
+                            Log.d(TAG, countries.toString())
+                        }
                     }
                 }
                 is Resource.Error -> {
-                    listOfCountries.let { message ->
-                        Toast.makeText(requireContext(), listOfCountries.message , Toast.LENGTH_SHORT).show()
-                    }
+                    hideProgressBar()
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
                 }
             }
         })
@@ -66,8 +71,12 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCountryClick(countryName: String) {
-
         val countryDetailsDialogInfo = layoutInflater.inflate(R.layout.details_country_dialog, null)
+        val loadingDialog: ProgressBar = countryDetailsDialogInfo.findViewById(R.id.loadingDialog)
+        val dataLayout: View = countryDetailsDialogInfo.findViewById(R.id.dialogDataLayout)
+
+
+
         val countryNameTxt: TextView = countryDetailsDialogInfo.findViewById(R.id.countryTxtDialog)
         val confirmedCases: TextView = countryDetailsDialogInfo.findViewById(R.id.confirmedTxtdialog)
         val recoveredCases: TextView = countryDetailsDialogInfo.findViewById(R.id.recoveredTxtDialog)
@@ -75,27 +84,37 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
         val lifeExpected: TextView = countryDetailsDialogInfo.findViewById(R.id.lifeExpectedTxtDialog)
         val lastUpdated: TextView = countryDetailsDialogInfo.findViewById(R.id.lastUpdateTxtDialog)
 
+
+
         mainViewModel.getCountryDetailsData(countryName)
         mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
             when (countryDetails) {
                 is Resource.Success -> {
+                    dataLayout.visibility = View.VISIBLE
+                    loadingDialog.visibility = View.INVISIBLE
+                    hideProgressBar()
                     countryDetails.let { details ->
-                        details.data?.let { country ->
-                            countryNameTxt.text = "Country name: ${country.all.country}"
-                            confirmedCases.text = "Confirmed cases: ${country.all.confirmed.toString()}"
-                            recoveredCases.text = "Recovered cases: ${country.all.recovered.toString()}"
-                            deaths.text = "Deaths: ${country.all.deaths.toString()}"
-                            lifeExpected.text = "Life expectancy: ${country.all.lifeExpectancy}"
-                            lastUpdated.text = "Updated: ${country.all.updated}"
+                        details.data.let { country ->
+
+                            countryNameTxt.text = "Country name: ${country?.all?.country ?: "unavailable data."}"
+                            confirmedCases.text = "Confirmed cases: ${country?.all?.confirmed?.toString() ?: "unavailable data."}"
+                            recoveredCases.text = "Recovered cases: ${country?.all?.recovered?.toString() ?: "unavailable data."}"
+                            deaths.text = "Deaths: ${country?.all?.deaths?.toString()?: "unavailable data."}"
+                            lifeExpected.text = "Life expectancy: ${country?.all?.lifeExpectancy?: "unavailable data."}"
+                            lastUpdated.text = "Updated: ${country?.all?.updated?: "unavailable data."}"
+
+
                         }
                     }
                 }
                 is Resource.Error -> {
-                    Snackbar.make(
-                        requireView(),
-                        "Something went wrong. Check internet connection.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    loadingDialog.visibility = View.VISIBLE
+                    dataLayout.visibility = View.GONE
+                }
+
+                is Resource.Loading -> {
+                   loadingDialog.visibility = View.VISIBLE
+                    dataLayout.visibility = View.GONE
                 }
             }
         })
@@ -103,12 +122,24 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
 
         AlertDialog.Builder(requireContext()).apply {
             setView(countryDetailsDialogInfo)
-            setTitle("Country Details")
                 .setCancelable(true)
                 .create()
                 .show()
         }
     }
+
+
+
+    private fun showProgressBar() {
+        recyclerProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        recyclerProgressBar.visibility = View.INVISIBLE
+    }
+
+
+
 
 
 
