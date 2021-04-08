@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 
 data class Model(
     @SerializedName("All")
-    val all: Map<String, All>,
-    val regionInfo: Map<String, RegionInfo>
+    val all: All,
+    val regionInfo: RegionInfo
 )
