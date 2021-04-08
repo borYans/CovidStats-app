@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.boryans.covidstats.api.RetrofitInstance
 import com.boryans.covidstats.model.All
+import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Constants.Companion.SUCCESS
 import com.boryans.covidstats.util.Constants.Companion.TAG
 import com.boryans.covidstats.util.Resource
@@ -19,34 +20,37 @@ class CountryViewModel : ViewModel() {
     val error: MutableLiveData<Resource<Error>> = MutableLiveData()
 
 
-
-    fun getListOfAllCountries()  {
+    fun getListOfAllCountries() {
 
         val call = RetrofitInstance.API.getAllCountries()
-        call.enqueue(object : Callback<Map<String, All>>{
+        call.enqueue(object : Callback<Map<String, Model>> {
             override fun onResponse(
-                call: Call<Map<String, All>>,
-                response: Response<Map<String, All>>
+                call: Call<Map<String, Model>>,
+                response: Response<Map<String, Model>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
 
                     val map = response.body()
-                    val countryNames = ArrayList<String>()
-                    for (key in map!!.keys) {
-                        countryNames.add(key)
-                        Log.d(SUCCESS, "Country: $key")
+                    val all = map?.get("All")?.all
+                    val region = map?.get("Region")?.regionInfo
+
+                    val countryNames = ArrayList<String>(all?.keys)
+                    val regionNames = ArrayList<String>(region?.keys)
+
+                    val merged = ArrayList<String>()
+                    merged.apply {
+                        addAll(countryNames)
+                        addAll(regionNames)
                     }
 
-                    listOfAllCountries.postValue(Resource.Success(countryNames))
+                    listOfAllCountries.postValue(Resource.Success(merged))
                 } else {
                     Log.d(TAG, "Nesto ne ti e okejjj!!!")
                 }
             }
 
-            override fun onFailure(call: Call<Map<String, All>>, t: Throwable) {
-                TODO("Not yet implemented")
+            override fun onFailure(call: Call<Map<String, Model>>, t: Throwable) {
             }
-
 
         })
     }

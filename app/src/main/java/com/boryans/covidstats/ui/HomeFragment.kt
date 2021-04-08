@@ -71,12 +71,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun appendDataToViews(details: Resource.Success<Model>) {
-        statsTextView.text = details.data?.all?.country
-        totalCases.text = "Total cases: ${details.data?.all?.confirmed}"
-        recoveredCases.text = "Recovered cases: ${details.data?.all?.recovered.toString()}"
-        deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.all?.updated}"
+        statsTextView.text = details.data?.all?.getValue("country").toString()
+        totalCases.text = "Total cases: ${details.data?.all?.getValue("confirmed")}"
+        recoveredCases.text = "Recovered cases: ${details.data?.all?.getValue("recovered").toString()}"
+        deaths.text = "Deaths: ${details.data?.all?.getValue("deaths")?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${details.data?.all?.getValue("lifeExpectancy")} years"
+        lastUpdated.text = "Last updated: ${details.data?.all?.getValue("updated")}"
     }
 
     private fun setStatsVisibilityToVisible() {
