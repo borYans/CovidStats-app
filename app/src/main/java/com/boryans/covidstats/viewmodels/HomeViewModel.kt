@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.boryans.covidstats.api.RetrofitInstance
-import com.boryans.covidstats.model.Country
+import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Constants.Companion.TAG
 import com.boryans.covidstats.util.Resource
 import kotlinx.coroutines.launch
@@ -17,13 +17,13 @@ import java.lang.Exception
 class HomeViewModel: ViewModel() {
 
 
-    val countryDetails: MutableLiveData<Resource<Country>> = MutableLiveData()
+    val countryDetails: MutableLiveData<Resource<Model>> = MutableLiveData()
 
     fun getCountryDetailsData(countryName: String) = viewModelScope.launch {
 
         val call = RetrofitInstance.API.getSpecificCountry(countryName)
-        call.enqueue(object : Callback<Country> {
-            override fun onResponse(call: Call<Country>, response: Response<Country>) {
+        call.enqueue(object : Callback<Model> {
+            override fun onResponse(call: Call<Model>, response: Response<Model>) {
                 try {
                     if (response.isSuccessful && response.body() != null) {
                         val countriesResponse = response.body()
@@ -37,10 +37,10 @@ class HomeViewModel: ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<Country>, t: Throwable) {
-                Log.d(TAG, "Error response: $t")
-                countryDetails.postValue(Resource.Error("Something went wrong."))
+            override fun onFailure(call: Call<Model>, t: Throwable) {
+                TODO("Not yet implemented")
             }
+
         })
     }
 
