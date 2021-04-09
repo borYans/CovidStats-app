@@ -74,12 +74,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun appendDataToViews(details: Resource.Success<Model>) {
-        statsTextView.text = details.data?.all?.country
-        totalCases.text = "Total cases: ${details.data?.all?.confirmed}"
-        recoveredCases.text = "Recovered cases: ${details.data?.all?.recovered.toString()}"
-        deaths.text = "Deaths: ${details.data?.all?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${details.data?.all?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.all?.updated ?: "X"}"
+        statsTextView.text = details.data?.country?.country
+        totalCases.text = "Total cases: ${details.data?.country?.confirmed}"
+        recoveredCases.text = "Recovered cases: ${details.data?.country?.recovered.toString()}"
+        deaths.text = "Deaths: ${details.data?.country?.deaths?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${details.data?.country?.lifeExpectancy} years"
+        lastUpdated.text = "Last updated: ${details.data?.country?.updated ?: "X"}"
 
 
     }

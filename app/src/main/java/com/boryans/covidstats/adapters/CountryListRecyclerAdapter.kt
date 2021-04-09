@@ -44,15 +44,14 @@ class CountryListRecyclerAdapter(
             countryClickListener.onCountryClick(item)
         }
     }
-
     override fun getItemCount() = countries.size
 }
 
 class CountryItemDiffCallback(
     var oldCountryList: List<String>,
     var newCountryList: ArrayList<String>
-
 ) : DiffUtil.Callback() {
+
     override fun getOldListSize() = oldCountryList.size
 
     override fun getNewListSize() = newCountryList.size
