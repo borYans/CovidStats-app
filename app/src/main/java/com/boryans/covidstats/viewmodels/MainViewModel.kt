@@ -1,5 +1,6 @@
 package com.boryans.covidstats.viewmodels
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.boryans.covidstats.api.RetrofitInstance
 import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.model.Model
+import com.boryans.covidstats.repo.CovidStatsRepository
 import com.boryans.covidstats.util.Constants
 import com.boryans.covidstats.util.Resource
 import kotlinx.coroutines.launch
@@ -16,7 +18,10 @@ import retrofit2.Response
 import java.lang.Error
 import java.lang.Exception
 
-class MainViewModel(): ViewModel() {
+class MainViewModel(
+    val app: Application,
+    val repository: CovidStatsRepository
+): ViewModel() {
 
     val countryDetails: MutableLiveData<Resource<Model>> = MutableLiveData() // must be immutable
     val listOfAllCountries: MutableLiveData<Resource<ArrayList<String>>> = MutableLiveData()
@@ -25,26 +30,21 @@ class MainViewModel(): ViewModel() {
     fun getListOfAllCountries()  { //ktx live data
 
         listOfAllCountries.postValue(Resource.Loading()) //show progress bar
-
-        val call = RetrofitInstance.API.getAllCountries()
-
-        call.enqueue(object : Callback<Map<String, Map<String, Country>>>{
-
+        val call = repository.getListOfAllCountries()
+        call.enqueue(object : Callback<Map<String,Country>>{
             override fun onResponse(
-                call: Call<Map<String, Map<String, Country>>>,
-                response: Response<Map<String, Map<String, Country>>>
+                call: Call<Map<String, Country>>,
+                response: Response<Map<String, Country>>
             ) {
-
-                    val map = response.body()
-                    val countryNames = ArrayList<String>(map?.keys!!)
+                val map = response.body()
+                val countryNames = ArrayList<String>(map?.keys!!)
 
                 listOfAllCountries.postValue(Resource.Success(countryNames))
             }
 
-            override fun onFailure(call: Call<Map<String, Map<String, Country>>>, t: Throwable) {
-                error.postValue(Resource.Error("Something went wrong."))
+            override fun onFailure(call: Call<Map<String, Country>>, t: Throwable) {
+               error.postValue(Resource.Error("Something went wrong."))
             }
-
         })
     }
 
@@ -52,7 +52,7 @@ class MainViewModel(): ViewModel() {
 
         countryDetails.postValue(Resource.Loading()) //show progress bar
 
-        val call = RetrofitInstance.API.getSpecificCountry(countryName)
+        val call = repository.getSpecificCountry(countryName)
         call.enqueue(object : Callback<Model> {
             override fun onResponse(call: Call<Model>, response: Response<Model>) {
                 try {
@@ -69,9 +69,20 @@ class MainViewModel(): ViewModel() {
             }
 
             override fun onFailure(call: Call<Model>, t: Throwable) {
-                listOfAllCountries.postValue(Resource.Error("Something went wrong."))
+               error.postValue(Resource.Error("Something went wrong."))
             }
 
+
         })
+    }
+
+    fun saveCountry(country: Country) = viewModelScope.launch {
+        repository.updateAndInsertCountry(country)
+    }
+
+    fun getFavoriteCountries() = repository.getFavoriteCountries()
+
+    fun deleteCountry(country: Country) = viewModelScope.launch {
+        repository.deleteCountry(country)
     }
 }

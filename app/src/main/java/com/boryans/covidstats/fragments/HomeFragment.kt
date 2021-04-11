@@ -1,4 +1,4 @@
-package com.boryans.covidstats.ui
+package com.boryans.covidstats.fragments
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,9 +7,9 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.boryans.covidstats.R
+import com.boryans.covidstats.activities.MainActivity
 import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.MainViewModel
@@ -20,17 +20,19 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)?.setSupportActionBar(my_toolbar)
         setHasOptionsMenu(true)
+        mainViewModel = (activity as MainActivity).mainViewModel
 
         my_toolbar.inflateMenu(R.menu.home_toolbar_menu)
         my_toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.listOfInfectedCountries -> Navigation.findNavController(requireView()).navigate(HomeFragmentDirections.actionHomeFragmentToCountryList())
+                R.id.myCountries -> Navigation.findNavController((requireView())).navigate(HomeFragmentDirections.actionHomeFragmentToFavoriteCountry())
             }
             true
         }

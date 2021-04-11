@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface CountryApi {
 
     @GET("cases")
-     fun getAllCountries(): Call<Map<String, Map<String, Country>>>
+     fun getAllCountries(): Call<Map<String,Country>>
 
     @GET("cases?country")
      fun getSpecificCountry(@Query("country") country: String): Call<Model>

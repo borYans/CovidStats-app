@@ -12,7 +12,7 @@ interface CountryDao {
     suspend fun updateOrInsert(country: Country): Long
 
     @Query("SELECT * FROM covid_statistics")
-    fun getAllStatistics(): LiveData<List<Country>>
+    fun getAllFavoritesCountries(): LiveData<List<Country>>
 
     @Delete
     suspend fun deleteCountry(country: Country)
