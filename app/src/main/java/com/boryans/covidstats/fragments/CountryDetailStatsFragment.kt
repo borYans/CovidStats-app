@@ -43,16 +43,12 @@ class CountryDetailStatsFragment : Fragment(R.layout.fragment_country_details_st
                 is Resource.Success -> {
                     countryDetails.let { details ->
                         details.data.let { model ->
-                            countryNameDetails.text = model?.country
-                            confirmedCasesNumber.text = model?.confirmed.toString()
-                            deathsCasesNumber.text = model?.deaths.toString()
-                            recoveredCasesNumber.text = model?.recovered.toString()
+                            countryNameDetails.text = model?.country?.country
+                            confirmedCasesNumber.text = model?.country?.confirmed.toString()
+                            deathsCasesNumber.text = model?.country?.deaths.toString()
+                            recoveredCasesNumber.text = model?.country?.recovered.toString()
 
-                            model?.let {
-                                country = it
-                            }
-
-
+                            country = model?.country!!
                         }
                     }
                 }

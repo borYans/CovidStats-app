@@ -38,7 +38,7 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
                     hideProgressBar()
                     listOfCountries.let { list ->
                         list.data?.let { countries ->
-                            countryRecyclerAdapter.updateCountriesList(countries as ArrayList<String>)
+                            countryRecyclerAdapter.updateCountriesList(countries)
                             Log.d(TAG, countries.toString())
                         }
                     }

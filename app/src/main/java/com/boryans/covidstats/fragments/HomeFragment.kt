@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.boryans.covidstats.R
 import com.boryans.covidstats.activities.MainActivity
-import com.boryans.covidstats.model.Country
+import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -75,13 +75,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun appendDataToViews(details: Resource.Success<Country>) {
-        statsTextView.text = details.data?.country
-        totalCases.text = "Total cases: ${details.data?.confirmed}"
-        recoveredCases.text = "Recovered cases: ${details.data?.recovered.toString()}"
-        deaths.text = "Deaths: ${details.data?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${details.data?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.updated ?: "X"}"
+    private fun appendDataToViews(details: Resource.Success<Model>) {
+        statsTextView.text = details.data?.country?.country
+        totalCases.text = "Total cases: ${details.data?.country?.confirmed}"
+        recoveredCases.text = "Recovered cases: ${details.data?.country?.recovered.toString()}"
+        deaths.text = "Deaths: ${details.data?.country?.deaths?.toString()}"
+        lifeExpectancy.text = "Life expectancy: ${details.data?.country?.lifeExpectancy} years"
+        lastUpdated.text = "Last updated: ${details.data?.country?.updated ?: "X"}"
 
 
     }

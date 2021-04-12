@@ -12,6 +12,6 @@ interface CountryApi {
      fun getAllCountries(): Call<Map<String,Country>>
 
     @GET("cases?country")
-     fun getSpecificCountry(@Query("country") country: String): Call<Country>
+     fun getSpecificCountry(@Query("country") country: String): Call<Model>
 
 }
