@@ -14,7 +14,7 @@ class CountryListRecyclerAdapter(
     private val countryClickListener: CountryClickListener
 ): RecyclerView.Adapter<CountryListRecyclerAdapter.HomeViewHolder>() {
 
-     var countries =  mutableListOf<String>()
+     var countries =  listOf<String>()
 
     fun updateCountriesList(countryList: ArrayList<String>) {
         val oldList = countries
