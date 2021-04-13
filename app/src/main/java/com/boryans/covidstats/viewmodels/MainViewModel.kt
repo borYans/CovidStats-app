@@ -35,6 +35,7 @@ class MainViewModel(
     fun getListOfAllCountries()  {
         listOfAllCountries.postValue(Resource.Loading())
         handleCountryListResponse()
+
     }
 
     fun getSingleCountry(countryName: String) = viewModelScope.launch {
@@ -45,7 +46,22 @@ class MainViewModel(
 
     private fun handleCountryListResponse() {
         if (true) {
+            val call = repository.getListOfAllCountries()
+            call.enqueue(object : Callback<Map<String,Country>>{
+                override fun onResponse(
+                    call: Call<Map<String, Country>>,
+                    response: Response<Map<String, Country>>
+                ) {
+                    val map = response.body()
 
+                    val countryNames = ArrayList<String>(map?.keys!!)
+                    listOfAllCountries.postValue(Resource.Success(countryNames))
+                }
+
+                override fun onFailure(call: Call<Map<String, Country>>, t: Throwable) {
+                    error.postValue(Resource.Error("Something went wrong."))
+                }
+            })
         } else {
           //  fetchAllCountriesFromLocal()
         }
@@ -57,7 +73,6 @@ class MainViewModel(
     private fun handleSingleCountry(country: String) {
         if (true) {
             val call = repository.getSpecificCountry(country)
-
             call.enqueue(object : Callback<Model> {
                 override fun onResponse(call: Call<Model>, response: Response<Model>) {
                     try {
