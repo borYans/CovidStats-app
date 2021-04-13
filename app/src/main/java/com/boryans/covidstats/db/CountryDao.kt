@@ -10,14 +10,6 @@ interface CountryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateOrInsert(country: Country): Long
 
-    /*@Insert (onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateOrInsertCache(mapCountry: Map<String, Country>):Long
-
-    @Query("SELECT * FROM covid_statistics")
-    fun getAllCache(): LiveData<List<Map<String, Country>>>
-
-    */
-
     @Query("SELECT * FROM covid_statistics WHERE isFavorite = 1")
     fun getFavoriteCountry(): LiveData<List<Country>>
 
@@ -25,3 +17,34 @@ interface CountryDao {
     suspend fun deleteCountry(country: Country)
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*@Insert (onConflict = OnConflictStrategy.REPLACE)
+suspend fun updateOrInsertCache(mapCountry: Map<String, Country>):Long
+
+@Query("SELECT * FROM covid_statistics")
+fun getAllCache(): LiveData<List<Map<String, Country>>>
+
+*/

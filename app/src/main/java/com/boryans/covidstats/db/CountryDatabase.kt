@@ -14,7 +14,7 @@ abstract class CountryDatabase:  RoomDatabase(){
 
     abstract fun getCountryDao(): CountryDao
 
-    companion object{
+    companion object {
 
         @Volatile
         private var instance: CountryDatabase? = null
@@ -25,18 +25,12 @@ abstract class CountryDatabase:  RoomDatabase(){
                 instance = instanceOfDatabase
             }
         }
+
         private fun createDatabase(context: Context) =
          Room.databaseBuilder(
              context.applicationContext,
              CountryDatabase::class.java,
              "country_db.db"
          ).build()
-
-
-
-
-
-
     }
-
 }
