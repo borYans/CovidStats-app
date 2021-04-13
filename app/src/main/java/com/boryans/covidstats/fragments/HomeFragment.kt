@@ -69,7 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 Snackbar.make(requireView(), "Add name of the country.", Snackbar.LENGTH_SHORT)
                     .show()
             } else {
-                mainViewModel.getCountryDetailsData(searchInputTxt.text?.trim().toString())
+                mainViewModel.getSingleCountry(searchInputTxt.text?.trim().toString())
             }
         }
 

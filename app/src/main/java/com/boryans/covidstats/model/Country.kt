@@ -7,13 +7,12 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "covid_statistics")
 data class Country(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
     var abbreviation: String = "",
     @SerializedName("capital_city")
     var capitalCity: String = "",
     var confirmed: Int = 0,
     var continent: String = "",
+    @PrimaryKey
     var country: String = "",
     var deaths: Int = 0,
     @SerializedName("elevation_in_meters")
@@ -28,5 +27,6 @@ data class Country(
     var recovered: Int = 0,
     @SerializedName("sq_km_area")
     var sqKmArea: Int = 0,
-    var updated: String = ""
+    var updated: String = "",
+    var isFavorite: Boolean = false
 )

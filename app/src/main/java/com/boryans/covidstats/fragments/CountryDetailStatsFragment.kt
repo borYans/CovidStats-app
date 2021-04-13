@@ -3,7 +3,6 @@ package com.boryans.covidstats.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
 import com.boryans.covidstats.R
 import com.boryans.covidstats.activities.MainActivity
 import com.boryans.covidstats.model.Country
@@ -27,6 +26,7 @@ class CountryDetailStatsFragment : Fragment(R.layout.fragment_country_details_st
 
         addToFavoritesFab.setOnClickListener {
             country.let {
+                country.isFavorite = true
                 mainViewModel.saveCountry(it)
             }
           Snackbar.make(it, "${country.country} added to favorites.", Snackbar.LENGTH_SHORT).show()
@@ -35,7 +35,7 @@ class CountryDetailStatsFragment : Fragment(R.layout.fragment_country_details_st
 
         arguments?.let {
             val args = CountryDetailStatsFragmentArgs.fromBundle(it)
-            mainViewModel.getCountryDetailsData(args.countryName)
+            mainViewModel.getSingleCountry(args.countryName)
         }
 
         mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->

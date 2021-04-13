@@ -14,9 +14,19 @@ class CovidStatsRepository(
     fun getSpecificCountry(country: String) =
         RetrofitInstance.API.getSpecificCountry(country)
 
+
+
+
    suspend fun updateAndInsertCountry(country: Country) = db.getCountryDao().updateOrInsert(country)
 
-    fun getFavoriteCountries() = db.getCountryDao().getAllFavoritesCountries()
+    //suspend fun updateCache(mapCountries: Map<String, Country>) = db.getCountryDao().updateOrInsertCache(mapCountries)
+
+
+
+
+   // fun getAllCountries() = db.getCountryDao().getAllCache()
+
+    fun getFavoriteCountries() = db.getCountryDao().getFavoriteCountry()
 
     suspend fun deleteCountry(country: Country) = db.getCountryDao().deleteCountry(country)
 

@@ -52,7 +52,6 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
                 }
             }
         })
-
     }
 
     private fun setUpRecyclerView() {
