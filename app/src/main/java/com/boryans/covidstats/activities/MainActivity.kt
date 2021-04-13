@@ -22,9 +22,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val repository = CovidStatsRepository(CountryDatabase(this))
-        val viewModelProviderFactory = MainViewModelProviderFactory(repository, application)
+        val viewModelProviderFactory = MainViewModelProviderFactory(repository)
         mainViewModel = ViewModelProvider(this, viewModelProviderFactory).get(MainViewModel::class.java)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
