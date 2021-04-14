@@ -10,6 +10,7 @@ android {
     buildToolsVersion "30.0.3"
     dataBinding.enabled true
 
+
     defaultConfig {
         applicationId "com.boryans.covidstats"
         minSdkVersion 16
@@ -33,6 +34,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 

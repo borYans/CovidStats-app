@@ -12,6 +12,7 @@ import com.boryans.covidstats.R
 import com.boryans.covidstats.activities.MainActivity
 import com.boryans.covidstats.adapters.CountryListRecyclerAdapter
 import com.boryans.covidstats.listeners.CountryClickListener
+import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.util.Constants.Companion.TAG
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.MainViewModel
@@ -31,27 +32,55 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
         setUpRecyclerView()
 
 
-        mainViewModel.getListOfAllCountries()
-        mainViewModel.listOfAllCountries.observe(viewLifecycleOwner, { listOfCountries ->
-            when (listOfCountries) {
+        mainViewModel.checkInternetConnection()
+        mainViewModel.internetConnection.observe(viewLifecycleOwner, { connection ->
+            when(connection) {
                 is Resource.Success -> {
-                    hideProgressBar()
-                    listOfCountries.let { list ->
-                        list.data?.let { countries ->
-                            countryRecyclerAdapter.updateCountriesList(countries)
-                            Log.d(TAG, countries.toString())
-                        }
-                    }
-                }
-                is Resource.Error -> {
-                    hideProgressBar()
-                }
 
-                is Resource.Loading -> {
-                    showProgressBar()
+                    fetchFromRemote()
+                    mainViewModel.listOfAllCountries.observe(viewLifecycleOwner, { listOfCountries ->
+                        when (listOfCountries) {
+                            is Resource.Success -> {
+                                hideProgressBar()
+                                listOfCountries.let { list ->
+                                    list.data?.let { countries ->
+                                        val listOfCountryNames = ArrayList<String>()
+                                        for (country in countries) {
+                                            listOfCountryNames.add(country.country)
+                                        }
+                                        countryRecyclerAdapter.updateCountriesList(listOfCountryNames)
+                                        Log.d(TAG, countries.toString())
+                                    }
+                                }
+                            }
+                            is Resource.Error -> {
+                                hideProgressBar()
+                            }
+
+                            is Resource.Loading -> {
+                                showProgressBar()
+                            }
+                        }
+                    })
+                }
+                else -> {
+                    fetchFromCountryDatabase()
+                    mainViewModel.getAllCountriesFromLocal().observe(viewLifecycleOwner, { listOfCountriesFromLocal ->
+                        hideProgressBar()
+                        val listOfcountries = ArrayList<String>()
+                        for (country in listOfCountriesFromLocal) {
+                            listOfcountries.add(country.country)
+                        }
+                        countryRecyclerAdapter.updateCountriesList(listOfcountries)
+                    })
+
                 }
             }
         })
+
+
+
+
     }
 
     private fun setUpRecyclerView() {
@@ -65,9 +94,7 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCountryClick(countryName: String) {
-
         Navigation.findNavController(requireView()).navigate(CountryListDirections.actionCountryListToCountryDetailsStatsFragment(countryName))
-
     }
 
     private fun showProgressBar() {
@@ -77,6 +104,9 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
     private fun hideProgressBar() {
         recyclerProgressBar.visibility = View.INVISIBLE
     }
+     private fun fetchFromRemote() = mainViewModel.getListOfAllCountries()
+
+     private fun fetchFromCountryDatabase() = mainViewModel.getAllCountriesFromLocal()
 
     }
 

@@ -8,7 +8,8 @@ import com.boryans.covidstats.model.Country
 
 @Database(
     entities = [Country::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class CountryDatabase:  RoomDatabase(){
 
