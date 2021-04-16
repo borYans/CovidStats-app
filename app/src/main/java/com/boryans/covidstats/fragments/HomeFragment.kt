@@ -38,13 +38,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
+
         mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
             when (countryDetails) {
                 is Resource.Success -> {
                     hideProgressBar()
                     countryDetails.let { details ->
                         setStatsVisibilityToVisible()
-                        appendDataToViews(details)
+                        statsTextView.text = details.data?.country?.country
+                        totalCases.text = "Total cases: ${details.data?.country?.confirmed.toString()}"
+                        recoveredCases.text = "Recovered cases: ${details.data?.country?.recovered.toString()}"
+                        deaths.text = "Deaths: ${details.data?.country?.deaths?.toString()}"
+                        lifeExpectancy.text = "Life expectancy: ${details.data?.country?.lifeExpectancy} years"
+                        lastUpdated.text = "Last updated: ${details.data?.country?.updated ?: "X"}"
                     }
                 }
                 is Resource.Error -> {
@@ -72,17 +78,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 mainViewModel.getSingleCountry(searchInputTxt.text?.trim().toString())
             }
         }
-
-    }
-
-    private fun appendDataToViews(details: Resource.Success<Model>) {
-        statsTextView.text = details.data?.country?.country
-        totalCases.text = "Total cases: ${details.data?.country?.confirmed}"
-        recoveredCases.text = "Recovered cases: ${details.data?.country?.recovered.toString()}"
-        deaths.text = "Deaths: ${details.data?.country?.deaths?.toString()}"
-        lifeExpectancy.text = "Life expectancy: ${details.data?.country?.lifeExpectancy} years"
-        lastUpdated.text = "Last updated: ${details.data?.country?.updated ?: "X"}"
-
 
     }
 

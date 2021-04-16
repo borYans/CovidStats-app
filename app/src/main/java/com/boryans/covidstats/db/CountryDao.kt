@@ -8,19 +8,19 @@ import com.boryans.covidstats.model.Country
 interface CountryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateOrInsert(country: Country): Long
+    suspend fun updateOrInsert(country: Country)
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateOrInsertCache(countries: List<Country>): List<Long>
+    suspend fun updateOrInsertCache(countries: List<Country>)
 
     @Query("SELECT * FROM covid_statistics WHERE isFavorite = 1")
     fun getFavoriteCountry(): LiveData<List<Country>>
 
     @Query("SELECT * FROM covid_statistics")
-    fun getAllCountries(): LiveData<List<Country>>
+    suspend fun getAllCountries(): List<Country>
 
-    @Delete
-    suspend fun deleteCountry(country: Country)
+    @Query("DELETE FROM covid_statistics WHERE country = :country")
+    suspend fun deleteCountry(country: String)
 
 
 }

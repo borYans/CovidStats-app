@@ -38,9 +38,12 @@ class CountryDetailStatsFragment : Fragment(R.layout.fragment_country_details_st
             mainViewModel.getSingleCountry(args.countryName)
         }
 
+
+
         mainViewModel.countryDetails.observe(viewLifecycleOwner, { countryDetails ->
             when (countryDetails) {
                 is Resource.Success -> {
+
                     countryDetails.let { details ->
                         details.data.let { model ->
                             countryNameDetails.text = model?.country?.country
