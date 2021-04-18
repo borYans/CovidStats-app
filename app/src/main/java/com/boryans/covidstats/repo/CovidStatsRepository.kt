@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.boryans.covidstats.api.RetrofitInstance
 import com.boryans.covidstats.db.CountryDatabase
 import com.boryans.covidstats.model.Country
+import com.boryans.covidstats.model.CountryData
 import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.util.Constants
 import com.boryans.covidstats.util.CountryApplication
@@ -28,8 +29,8 @@ class CovidStatsRepository(
     val db: CountryDatabase
 ) {
 
-    fun getListOfAllCountries(): MutableLiveData<Resource<ArrayList<String>>> {
-        val countries: MutableLiveData<Resource<ArrayList<String>>> = MutableLiveData()
+    fun getListOfAllCountries(): MutableLiveData<Resource<ArrayList<Country>>> {
+        val countries: MutableLiveData<Resource<ArrayList<Country>>> = MutableLiveData()
 
         val call = RetrofitInstance.API.getAllCountries()
         call.enqueue(object : Callback<Map<String, Map<String, Country>>> {
@@ -38,18 +39,19 @@ class CovidStatsRepository(
                 call: Call<Map<String, Map<String, Country>>>,
                 response: Response<Map<String, Map<String, Country>>>
             ) {
+
                 val map = response.body()
-                val countryObjects = ArrayList<String>(map?.keys!!)
-                countries.postValue(Resource.Success(countryObjects))
 
                 val countriesList = ArrayList<Country>()
 
-                for (entry in map.entries) {
+                for (entry in map?.entries!!) {
                     for (country in entry.value.entries) {
                         countriesList.add(country.value)
                         Log.d("", country.value.toString());
                     }
                 }
+                countries.postValue(Resource.Success(countriesList))
+
 
                 CoroutineScope(Dispatchers.IO).launch {
                     saveAllCountries(countriesList)

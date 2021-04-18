@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_favorite_country.*
 class FavoriteCountry : Fragment(R.layout.fragment_favorite_country), CountryClickListener {
 
 
-
     lateinit var mainViewModel: MainViewModel
     lateinit var favoritesAdapter: CountryListRecyclerAdapter
 
@@ -41,7 +40,7 @@ class FavoriteCountry : Fragment(R.layout.fragment_favorite_country), CountryCli
             favoritesAdapter.updateCountriesList(countryNames)
         })
 
-        var itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {

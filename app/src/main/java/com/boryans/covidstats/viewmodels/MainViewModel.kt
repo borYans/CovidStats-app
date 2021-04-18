@@ -5,15 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.repo.CovidStatsRepository
-import com.boryans.covidstats.util.CountryApplication
 import com.boryans.covidstats.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,34 +18,31 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val repository: CovidStatsRepository,
     app: Application
-): AndroidViewModel(app) {
+) : AndroidViewModel(app) {
 
-    var countryDetails: MutableLiveData<Resource<Model>> = MutableLiveData() // must be immutable
-    var listOfAllCountries: MutableLiveData<Resource<ArrayList<String>>> = MutableLiveData()
-    var listOfCountriesFromRemote: MutableLiveData<List<Country>> = MutableLiveData()
-    var internetConnection: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-
+    var countryDetails: MutableLiveData<Resource<Model>> = MutableLiveData()
+    var listOfAllCountries: MutableLiveData<Resource<ArrayList<Country>>> = MutableLiveData()
+    var listOfAllCountriesFromLocal: MutableLiveData<List<Country>> = MutableLiveData()
 
 
+    fun refreshUI() {
+        listOfAllCountries.postValue(Resource.Loading())
 
 
-
-     fun refreshUI()  {
-         listOfAllCountries.postValue(Resource.Loading())
-
-
-         if (hasInternetConnection()) {
-             listOfAllCountries = repository.getListOfAllCountries()
-         } else {
-             getAllCountriesFromLocal()
-         }
+        if (hasInternetConnection()) {
+            getAllCountriesFromRemote()
+        } else {
+            getAllCountriesFromLocal()
+        }
     }
 
-    fun getSingleCountry(countryName: String){
-         countryDetails.postValue(Resource.Loading())
-         countryDetails = repository.getSpecificCountry(countryName)
+    fun getAllCountriesFromRemote() {
+        listOfAllCountries = repository.getListOfAllCountries()
     }
 
+    fun getSingleCountry(countryName: String) {
+        countryDetails = repository.getSpecificCountry(countryName)
+    }
 
     fun getFavoriteCountries() = repository.getFavoriteCountries()
 
@@ -61,13 +55,14 @@ class MainViewModel(
     }
 
     private fun getAllCountriesFromLocal() = viewModelScope.launch {
-        listOfCountriesFromRemote.postValue(repository.getAllCountries())
+        listOfAllCountriesFromLocal.postValue(repository.getAllCountries())
     }
 
 
     private fun hasInternetConnection(): Boolean {
 
-        val connectivityManager = getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNetwork = connectivityManager.activeNetwork ?: return false
             val capabilities =
@@ -92,7 +87,8 @@ class MainViewModel(
         return false
     }
 
-    }
+
+}
 
 
 

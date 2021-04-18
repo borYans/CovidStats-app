@@ -8,5 +8,8 @@ class Constants {
         const val SUCCESS = "SUCCESS"
 
         const val BASE_URL = "https://covid-api.mmediagroup.fr/v1/"
+
+        const val CHANNEL_ID = "notificationChanel"
+        const val CHANNEL_NAME = "favoriteNotifications"
     }
 }

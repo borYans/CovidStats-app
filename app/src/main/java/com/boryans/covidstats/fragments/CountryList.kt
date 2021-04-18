@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import com.boryans.covidstats.R
 import com.boryans.covidstats.activities.MainActivity
 import com.boryans.covidstats.adapters.CountryListRecyclerAdapter
 import com.boryans.covidstats.listeners.CountryClickListener
-import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.util.Constants.Companion.TAG
 import com.boryans.covidstats.util.Resource
 import com.boryans.covidstats.viewmodels.MainViewModel
@@ -44,7 +42,11 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
                         hideProgressBar()
                         listOfCountries.let { list ->
                             list.data?.let { countries ->
-                                countryRecyclerAdapter.updateCountriesList(countries)
+                                val countryListForRecyclerView = ArrayList<String>()
+                                for (country in countries) {
+                                    countryListForRecyclerView.add(country.country!!)
+                                }
+                                countryRecyclerAdapter.updateCountriesList(countryListForRecyclerView)
                                 Log.d(TAG, countries.toString())
                             }
                         }
@@ -52,7 +54,7 @@ class CountryList : Fragment(R.layout.fragment_country_list), CountryClickListen
                 }
             })
 
-        mainViewModel.listOfCountriesFromRemote.observe(viewLifecycleOwner, { listOfCountriesFromLocal ->
+        mainViewModel.listOfAllCountriesFromLocal.observe(viewLifecycleOwner, { listOfCountriesFromLocal ->
             hideProgressBar()
             val listOfcountries = ArrayList<String>()
             for (country in listOfCountriesFromLocal) {
