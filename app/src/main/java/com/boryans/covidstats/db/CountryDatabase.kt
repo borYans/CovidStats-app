@@ -26,6 +26,7 @@ abstract class CountryDatabase:  RoomDatabase(){
                 instance = instanceOfDatabase
             }
         }
+
         private fun createDatabase(context: Context) =
          Room.databaseBuilder(
              context.applicationContext,

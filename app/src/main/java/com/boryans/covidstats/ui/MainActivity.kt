@@ -1,20 +1,13 @@
-package com.boryans.covidstats.activities
+package com.boryans.covidstats.ui
 
-import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI
 import com.boryans.covidstats.R
 import com.boryans.covidstats.db.CountryDatabase
 import com.boryans.covidstats.repo.CovidStatsRepository
-import com.boryans.covidstats.util.CountryApplication
 import com.boryans.covidstats.viewmodels.MainViewModel
 import com.boryans.covidstats.viewmodels.MainViewModelProviderFactory
 

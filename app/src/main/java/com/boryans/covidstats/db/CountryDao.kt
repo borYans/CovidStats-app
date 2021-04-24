@@ -22,5 +22,12 @@ interface CountryDao {
     @Query("DELETE FROM covid_statistics WHERE country = :country")
     suspend fun deleteCountry(country: String)
 
+    @Query("SELECT countryId FROM covid_statistics where country LIKE :country")
+    suspend fun getCountryId(country: String): Int
+
+
+    @Query("UPDATE covid_statistics SET confirmed = :confirmedCases, deaths = :deaths, recovered = :recovered WHERE countryId = :idPrimary ")
+    suspend fun updateCountryIfExist(idPrimary: Int, confirmedCases: Int, deaths: Int, recovered: Int )
+
 
 }

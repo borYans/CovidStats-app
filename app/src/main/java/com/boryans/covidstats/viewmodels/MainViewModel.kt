@@ -12,8 +12,10 @@ import com.boryans.covidstats.model.Country
 import com.boryans.covidstats.model.Model
 import com.boryans.covidstats.repo.CovidStatsRepository
 import com.boryans.covidstats.util.Resource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val repository: CovidStatsRepository,
@@ -27,7 +29,6 @@ class MainViewModel(
 
     fun refreshUI() {
         listOfAllCountries.postValue(Resource.Loading())
-
 
         if (hasInternetConnection()) {
             getAllCountriesFromRemote()
@@ -57,6 +58,10 @@ class MainViewModel(
     private fun getAllCountriesFromLocal() = viewModelScope.launch {
         listOfAllCountriesFromLocal.postValue(repository.getAllCountries())
     }
+
+    suspend fun getCountryIdFromDb(nameOfCountry: String) = repository.getCountryId(nameOfCountry)
+
+
 
 
     private fun hasInternetConnection(): Boolean {

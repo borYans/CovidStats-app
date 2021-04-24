@@ -1,4 +1,4 @@
-package com.boryans.covidstats.fragments
+package com.boryans.covidstats.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

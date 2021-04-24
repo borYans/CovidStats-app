@@ -1,4 +1,4 @@
-package com.boryans.covidstats.adapters
+package com.boryans.covidstats.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View

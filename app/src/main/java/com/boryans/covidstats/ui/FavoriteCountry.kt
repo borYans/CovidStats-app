@@ -1,17 +1,14 @@
-package com.boryans.covidstats.fragments
+package com.boryans.covidstats.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.boryans.covidstats.R
-import com.boryans.covidstats.activities.MainActivity
-import com.boryans.covidstats.adapters.CountryListRecyclerAdapter
+import com.boryans.covidstats.ui.adapters.CountryListRecyclerAdapter
 import com.boryans.covidstats.listeners.CountryClickListener
 import com.boryans.covidstats.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
